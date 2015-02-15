@@ -10,9 +10,9 @@ class BoardView(object):
         pass
 
     @abstractmethod
-    def announce_winner(self, winner):
+    def set_turn(self, token):
         pass
 
     @abstractmethod
-    def announce_turn(self, turn):
+    def show_invalid_cell_msg(self):
         pass
