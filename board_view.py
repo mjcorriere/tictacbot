@@ -16,3 +16,11 @@ class BoardView(object):
     @abstractmethod
     def show_invalid_cell_msg(self):
         pass
+
+    @abstractmethod
+    def show_victory_msg(self, victor):
+        pass
+
+    @abstractmethod
+    def show_stalemate_msg(self):
+        pass

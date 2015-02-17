@@ -4,16 +4,19 @@ from ascii_board_view import ASCIIBoardView
 
 
 class TicTacToe(object):
-    """Docstring"""
+    """A game of TicTacToe"""
 
     def __init__(self):
-        """Docstring"""
+        """
+        Initializes the model, view, and controller in anticipation
+        of a new game of TTT
+        """
         self.board = Board()
         self.board_view = ASCIIBoardView(self.board)
         self.board_controller = BoardController(self.board, self.board_view)
 
     def main(self):
-        """Docstring"""
+        """Begins the game of TTT and fires the main game loop"""
         print 'Welcome to Triple T'
 
         while True:
@@ -26,7 +29,10 @@ class TicTacToe(object):
                 self._play()
 
     def _play(self):
-        """Docstring"""
+        """
+        The main game loop. Runs indefinitely until the user quits, or the
+        end of the game has been reached.
+        """
 
         self.board_controller.start_game()
         self.board_view.draw()
@@ -34,14 +40,18 @@ class TicTacToe(object):
         playing = True
         while playing:
 
-            self.handle_input()
+            self._handle_input()
             self.board_view.draw()
 
-            if self.check_for_end():
+            if self._check_for_end():
                 playing = False
 
-    def check_for_end(self):
-        """Docstring"""
+    def _check_for_end(self):
+        """
+        Checks to see if the game has ended either by victory or stalemate.
+        If either is detected, it displays the correct message and returns
+        True.
+        """
 
         result = False
         winner = self.board_controller.check_for_win()
@@ -58,7 +68,11 @@ class TicTacToe(object):
         return result
 
     def _menu_prompt(self):
-        """Docstring"""
+        """
+        Prompts the user to start the game or quit. Loops indefinitely
+        until a valid selection is made.
+        """
+        # TODO: Move this to the view.
 
         cmd = ''
         while True:
@@ -68,10 +82,11 @@ class TicTacToe(object):
 
         return cmd
 
-    def handle_input(self):
-        """Docstring"""
+    def _handle_input(self):
+        """
+        Handles user input and routes it to the correct controller function.
+        """
 
-        current_turn = self.board_controller.current_turn
         print 'Enter row, column (rc):',
 
         rc = raw_input()
