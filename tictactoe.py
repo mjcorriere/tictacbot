@@ -1,19 +1,35 @@
 from board import Board
 from board_controller import BoardController
-from ascii_board_view import ASCIIBoardView
+from tk_board_view import TKBoardView
+
+import Tkinter as tk
 
 
 class TicTacToe(object):
     """A game of TicTacToe"""
 
-    def __init__(self):
+    def __init__(self, master):
         """
         Initializes the model, view, and controller in anticipation
         of a new game of TTT
         """
+        master.pack_propagate(0)
+
+        self.frame = tk.Frame(master, bg='blue', width=500, height=500)
+
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.columnconfigure(1, weight=1)
+        self.frame.columnconfigure(2, weight=1)
+
+        self.frame.rowconfigure(0, weight=1)
+        self.frame.rowconfigure(1, weight=1)
+        self.frame.rowconfigure(2, weight=1)
+
         self.board = Board()
-        self.board_view = ASCIIBoardView(self.board)
+        self.board_view = TKBoardView(self.board, self.frame)
         self.board_controller = BoardController(self.board, self.board_view)
+
+        self.frame.pack(fill=tk.BOTH, expand=tk.YES)
 
     def main(self):
         """Begins the game of TTT and fires the main game loop"""
@@ -96,6 +112,6 @@ class TicTacToe(object):
         self.board_controller.on_cell_select(r, c)
 
 if __name__ == '__main__':
-    ttt = TicTacToe()
-    ttt.main()
-
+    root = tk.Tk()
+    ttt = TicTacToe(root)
+    root.mainloop()
