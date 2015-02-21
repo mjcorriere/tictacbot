@@ -11,6 +11,7 @@ class TKBoardView(BoardView):
         self.board = None
         self.controller = None
         self.grid = []
+        self.status_label = None
 
     def set_controller(self, controller):
         """Docstring"""
@@ -23,14 +24,15 @@ class TKBoardView(BoardView):
 
     def _setup_board(self):
         """Docstring"""
-        grid_length = self.board.width * self.board.width
+        width = self.board.width
+        grid_length = width * width
         sticky_value = tk.N + tk.S + tk.E + tk.W
 
         for _ in xrange(grid_length):
             self.grid.append(tk.Button(self.parent))
 
         for i, button in enumerate(self.grid):
-            width = self.board.width
+
             r = i / width
             c = i % width
 
@@ -38,6 +40,10 @@ class TKBoardView(BoardView):
             button.configure(command=lambda r=r, c=c:
                 self.controller.on_cell_select(r+1, c+1))
             button.configure(text='-')
+
+        self.status_label = tk.Label(self.parent, text="OMFG")
+        self.status_label.grid(row=width+1, column=0, columnspan=width,
+                               sticky=tk.W)
 
     def set_x(self, r, c):
         i = self.board.width * r + c
@@ -51,14 +57,18 @@ class TKBoardView(BoardView):
         pass
 
     def set_turn(self, token):
-        pass
+        message = "Turn: " + token
+        self.status_label.configure(text=message)
 
     def show_invalid_cell_msg(self):
-        pass
+        message = "Invalid cell"
+        self.status_label.configure(text=message)
 
     def show_victory_msg(self, victor):
-        pass
+        message = victor + " wins! Congratulations!"
+        self.status_label.configure(text=message)
 
     def show_stalemate_msg(self):
-        pass
+        message = "Draw!"
+        self.status_label.configure(text=message)
 

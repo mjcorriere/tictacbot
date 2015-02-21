@@ -18,13 +18,13 @@ class TicTacToe(object):
 
         self.frame = tk.Frame(master, bg='blue', width=500, height=500)
 
-        self.frame.columnconfigure(0, weight=1)
-        self.frame.columnconfigure(1, weight=1)
-        self.frame.columnconfigure(2, weight=1)
+        self.frame.columnconfigure(0, weight=1, uniform="wtf")
+        self.frame.columnconfigure(1, weight=1, uniform="wtf")
+        self.frame.columnconfigure(2, weight=1, uniform="wtf")
 
-        self.frame.rowconfigure(0, weight=1)
-        self.frame.rowconfigure(1, weight=1)
-        self.frame.rowconfigure(2, weight=1)
+        self.frame.rowconfigure(0, weight=1, uniform="wtf")
+        self.frame.rowconfigure(1, weight=1, uniform="wtf")
+        self.frame.rowconfigure(2, weight=1, uniform="wtf")
 
         self.board = Board()
         self.board_view = TKBoardView(self.frame)
