@@ -1,28 +1,51 @@
 from board_view import BoardView
 import Tkinter as tk
 
+
 class TKBoardView(BoardView):
     """Docstring"""
 
-    def __init__(self, board, parent):
-
-        self.board = board
+    def __init__(self, parent):
+        """Docstring"""
         self.parent = parent
-        self.setup_board()
+        self.board = None
+        self.controller = None
+        self.grid = []
 
-    def setup_board(self):
+    def set_controller(self, controller):
+        """Docstring"""
+        self.controller = controller
 
-        self.grid = [
-            tk.Button(self.parent).grid(row=0, column=0, sticky=tk.N+tk.S+tk.E+tk.W),
-            tk.Button(self.parent).grid(row=0, column=1, sticky=tk.N+tk.S+tk.E+tk.W),
-            tk.Button(self.parent).grid(row=0, column=2, sticky=tk.N+tk.S+tk.E+tk.W),
-            tk.Button(self.parent).grid(row=1, column=0, sticky=tk.N+tk.S+tk.E+tk.W),
-            tk.Button(self.parent).grid(row=1, column=1, sticky=tk.N+tk.S+tk.E+tk.W),
-            tk.Button(self.parent).grid(row=1, column=2, sticky=tk.N+tk.S+tk.E+tk.W),
-            tk.Button(self.parent).grid(row=2, column=0, sticky=tk.N+tk.S+tk.E+tk.W),
-            tk.Button(self.parent).grid(row=2, column=1, sticky=tk.N+tk.S+tk.E+tk.W),
-            tk.Button(self.parent).grid(row=2, column=2, sticky=tk.N+tk.S+tk.E+tk.W)
-        ]
+    def set_board(self, board):
+        """Docstring"""
+        self.board = board
+        self._setup_board()
+
+    def _setup_board(self):
+        """Docstring"""
+        grid_length = self.board.width * self.board.width
+        sticky_value = tk.N + tk.S + tk.E + tk.W
+
+        for _ in xrange(grid_length):
+            self.grid.append(tk.Button(self.parent))
+
+        for i, button in enumerate(self.grid):
+            width = self.board.width
+            r = i / width
+            c = i % width
+
+            button.grid(row=r, column=c, sticky=sticky_value)
+            button.configure(command=lambda r=r, c=c:
+                self.controller.on_cell_select(r+1, c+1))
+            button.configure(text='-')
+
+    def set_x(self, r, c):
+        i = self.board.width * r + c
+        self.grid[i].configure(text='X')
+
+    def set_o(self, r, c):
+        i = self.board.width * r + c
+        self.grid[i].configure(text='O')
 
     def draw(self):
         pass

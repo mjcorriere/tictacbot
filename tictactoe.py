@@ -13,7 +13,8 @@ class TicTacToe(object):
         Initializes the model, view, and controller in anticipation
         of a new game of TTT
         """
-        master.pack_propagate(0)
+        self.master = master
+        self.master.pack_propagate(0)
 
         self.frame = tk.Frame(master, bg='blue', width=500, height=500)
 
@@ -26,41 +27,21 @@ class TicTacToe(object):
         self.frame.rowconfigure(2, weight=1)
 
         self.board = Board()
-        self.board_view = TKBoardView(self.board, self.frame)
-        self.board_controller = BoardController(self.board, self.board_view)
+        self.board_view = TKBoardView(self.frame)
+        self.board_controller = BoardController()
+
+        self.board_controller.set_board(self.board)
+        self.board_controller.set_view(self.board_view)
+
+        self.board_view.set_controller(self.board_controller)
+        self.board_view.set_board(self.board)
 
         self.frame.pack(fill=tk.BOTH, expand=tk.YES)
 
     def main(self):
         """Begins the game of TTT and fires the main game loop"""
-        print 'Welcome to Triple T'
-
-        while True:
-
-            cmd = self._menu_prompt()
-
-            if cmd == 'q':
-                break
-            elif cmd == 's':
-                self._play()
-
-    def _play(self):
-        """
-        The main game loop. Runs indefinitely until the user quits, or the
-        end of the game has been reached.
-        """
-
         self.board_controller.start_game()
-        self.board_view.draw()
-
-        playing = True
-        while playing:
-
-            self._handle_input()
-            self.board_view.draw()
-
-            if self._check_for_end():
-                playing = False
+        self.master.mainloop()
 
     def _check_for_end(self):
         """
@@ -114,4 +95,4 @@ class TicTacToe(object):
 if __name__ == '__main__':
     root = tk.Tk()
     ttt = TicTacToe(root)
-    root.mainloop()
+    ttt.main()

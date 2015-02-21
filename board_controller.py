@@ -3,13 +3,21 @@
 class BoardController(object):
     """A controller for a TicTacToe board"""
 
-    def __init__(self, board, view):
+    def __init__(self):
         """Initializes a new board controller with a board and view"""
 
         self.current_turn = None
-        self.board = board
-        self.view = view
+        self.board = None
+        self.view = None
         self.winner = None
+
+    def set_board(self, board):
+        """Docstring"""
+        self.board = board
+
+    def set_view(self, view):
+        """Docstring"""
+        self.view = view
 
     def start_game(self):
         """Begins a new game of TicTacToe"""
@@ -23,12 +31,14 @@ class BoardController(object):
 
         if self.current_turn == 'x':
             if self.board.add_x(r, c):
+                self.view.set_x(r - 1, c - 1)
                 self.current_turn = 'o'
                 self.view.set_turn('o')
             else:
                 self.view.show_invalid_cell_msg()
         elif self.current_turn == 'o':
             if self.board.add_o(r, c):
+                self.view.set_o(r - 1, c - 1)
                 self.current_turn = 'x'
                 self.view.set_turn('x')
             else:
