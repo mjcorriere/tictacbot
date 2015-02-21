@@ -40,3 +40,9 @@ class ASCIIBoardView(BoardView):
     def show_invalid_cell_msg(self):
         self.invalid_cell_selected = True
 
+    def show_stalemate_msg(self):
+        pass
+
+    def show_victory_msg(self, victor):
+        pass
+
